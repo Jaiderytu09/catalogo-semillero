@@ -1,0 +1,14 @@
+<div class= tarjeta>
+    <img [src]="producto.images[0]" [alt]="producto.title" class="tarjeta-img">
+
+    <h3>{{producto.title}}</h3>
+    <p class="categoria">Categoria: {{producto.category.name}}</p>
+    <p class="precio">{{producto.price}}</p>
+
+    <span *ngIf="producto.stock === 0 ">
+        Agotado
+    </span>
+    <button (click)="onAgregar()" [disabled]="producto.stock === 0">
+        Agregar al carrito
+    </button>
+</div>

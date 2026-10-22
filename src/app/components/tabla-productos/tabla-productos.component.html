@@ -1,0 +1,29 @@
+<table *ngIf="productos.length > 0" class="tabla">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Miniatura</th>
+      <th>Título</th>
+      <th>Categoría</th>
+      <th>Precio</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of productos; trackBy: trackById">
+      <td>{{ p.id }}</td>
+      <td>
+        <img [src]="p.images[0]" [alt]="p.title" class="miniatura">
+      </td>
+      <td>{{ p.title }}</td>
+      <td>{{ p.category.name }}</td>
+      <td>${{ p.price }}</td>
+      <td>
+        <button (click)="editar.emit(p)">Editar</button>
+        <button (click)="eliminar.emit(p)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="productos.length === 0" class="vacio">No hay productos para mostrar </p>

@@ -1,0 +1,43 @@
+<header class="cabecera">
+  <h1>Catálogo Semillero</h1>
+
+  <button (click)="cambiarRol()">
+    Rol actual: {{ rol() }} (Clic para cambiar)
+  </button>
+
+  <div class="carrito-info">
+    <span>🛒 Ítems: {{ cantidadCarrito() }}</span> |
+    <span>Total: ${{ totalCarrito() }}</span>
+  </div>
+</header>
+<nav class="filtros">
+  <button (click)="seleccionarCategoria('todas')">Todas</button>
+  <button (click)="seleccionarCategoria('tecnologia')">Tecnología</button>
+  <button (click)="seleccionarCategoria('ropa')">Ropa</button>
+  <button (click)="seleccionarCategoria('hogar')">Hogar (Vacía)</button>
+</nav>
+<main [ngSwitch]="rol()">
+  <!-- Si el rol es ADMIN, muestra tu Tabla -->
+  <div *ngSwitchCase="'admin'">
+    <app-tabla-productos
+      [productos]="productosFiltrados()"
+      (editar)="onEditarProducto($event)"
+      (eliminar)="onEliminarProducto($event)">
+    </app-tabla-productos>
+  </div>
+
+  <!-- Si el rol es CUSTOMER, muestra la grilla de Tarjetas -->
+  <div *ngSwitchCase="'customer'">
+    <div *ngIf="productosFiltrados().length > 0" class="grilla">
+      <app-tarjeta-producto
+        *ngFor="let p of productosFiltrados(); trackBy: trackById"
+        [producto]="p"
+        (agregar)="onAgregarAlCarrito($event)">
+      </app-tarjeta-producto>
+    </div>
+
+    <p *ngIf="productosFiltrados().length === 0">
+      No hay productos en esta categoría.
+    </p>
+  </div>
+</main>
